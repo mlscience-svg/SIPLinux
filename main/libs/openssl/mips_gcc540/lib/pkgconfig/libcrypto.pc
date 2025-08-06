@@ -1,0 +1,11 @@
+prefix=/home/ubuntu/project/sip_linux_sdk/third_party/license/builds/linux/mips_gcc540/openssl
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: OpenSSL-libcrypto
+Description: OpenSSL cryptography library
+Version: 1.0.0
+Requires: 
+Libs: -L${libdir} -lcrypto -ldl
+Cflags: -I${includedir} 

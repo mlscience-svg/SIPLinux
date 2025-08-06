@@ -1,0 +1,12 @@
+prefix=/home/ubuntu/project/lvgl/sip_sdk_example/main/libs/alsa/mips_gcc540
+exec_prefix=/home/ubuntu/project/lvgl/sip_sdk_example/main/libs/alsa/mips_gcc540
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: alsa
+Description: Advanced Linux Sound Architecture (ALSA) - Library
+Version: 1.2.11
+Requires: 
+Libs: -L${libdir} -lasound
+Libs.private: -lm -lpthread -lrt
+Cflags: -I${includedir}
