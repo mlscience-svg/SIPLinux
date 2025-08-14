@@ -21,7 +21,7 @@ endif ()
 if (${CM_BUILD_OPTION} STREQUAL "x86_64")
         
 elseif (${CM_BUILD_OPTION} STREQUAL "arm")
-        #set(CMAKE_BUILD_RPATH "/data/libs")
+        set(CMAKE_BUILD_RPATH "/data/libs")
         #配置编译工具链
         set(CMAKE_SYSTEM_PROCESSOR arm)
         set(tools /home/ubuntu/project/sip_linux_sdk/resources/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf)

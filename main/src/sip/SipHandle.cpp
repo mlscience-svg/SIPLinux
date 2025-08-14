@@ -296,7 +296,7 @@ namespace sip
             .proxy = NULL,
             .proxy_port = 0,
             .enable_stream_control = SDK_FALSE,
-            .stream_elapsed = 2,
+            .stream_elapsed = 0,
             .start_keyframe_count = 120,
             .start_keyframe_interval = 1000,
         };
@@ -313,7 +313,7 @@ namespace sip
             .proxy = "43.160.204.96",
             .proxy_port = 5060,
             .enable_stream_control = SDK_FALSE,
-            .stream_elapsed = 5,
+            .stream_elapsed = 0,
             .start_keyframe_count = 10,
             .start_keyframe_interval = 1000,
             .turn_config = {

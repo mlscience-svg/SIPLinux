@@ -242,29 +242,29 @@ void registrar()
         .proxy = NULL,
         .proxy_port = 0,
         .enable_stream_control = SDK_FALSE,
-        .stream_elapsed = 2,
+        .stream_elapsed = 0,
         .start_keyframe_count = 10,
         .start_keyframe_interval = 1000,
     };
     local_account(local_config);
     // 注册到服务器
     sip_header sh = {"jwt", "dfdsfdsf"};
-    // sip_sdk_registrar_config registrar_config = {
-    //     .domain = "test.com",
-    //     .username = "test",
-    //     .password = "123456",
-    //     .transport = "tcp",
-    //     .server_addr = "43.160.204.96",
-    //     .server_port = 5060,
-    //     .headers = {},
-    //     .proxy = "43.160.204.96",
-    //     .proxy_port = 5060,
-    //     .enable_stream_control = SDK_FALSE,
-    //     .stream_elapsed = 5,
-    //     .start_keyframe_count = 10,
-    //     .start_keyframe_interval = 1000,
-    // };
-    // registrar_account(registrar_config);
+    sip_sdk_registrar_config registrar_config = {
+        .domain = "test.com",
+        .username = "test",
+        .password = "123456",
+        .transport = "tcp",
+        .server_addr = "43.160.204.96",
+        .server_port = 5060,
+        .headers = {},
+        .proxy = "43.160.204.96",
+        .proxy_port = 5060,
+        .enable_stream_control = SDK_FALSE,
+        .stream_elapsed = 0,
+        .start_keyframe_count = 10,
+        .start_keyframe_interval = 1000,
+    };
+    registrar_account(registrar_config);
 }
 
 /**

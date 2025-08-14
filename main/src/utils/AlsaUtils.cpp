@@ -1,6 +1,8 @@
 #include "AlsaUtils.hpp"
 #include "sip_sdk_aec.h"
 #include <mutex>
+#include "PCMBufferQueue.h"
+#include <thread>
 
 static std::mutex mutex_play;
 static std::mutex mutex_read;
@@ -221,10 +223,42 @@ error:
     return -1;
 }
 
+// 线程执行的函数
+void threadFunction()
+{
+    while (1)
+    {
+        std::lock_guard<std::mutex> lock(mutex_read);
+        snd_pcm_sframes_t result;
+        // 去alsa驱动中取数据
+        if (!read_pcm)
+        {
+            return;
+        }
+        uint8_t buf[640];
+        result = snd_pcm_readi(read_pcm, buf, 256);
+        if (result == -EPIPE)
+        {
+            printf("alsa read: overrun! \n");
+            snd_pcm_prepare(read_pcm);
+            continue;
+        }
+        else if (result < 0)
+        {
+            printf("alsa read: error reading data!\n");
+            continue;
+        }
+        pcmBufferQueue.enqueue(buf, result * 2);
+    }
+}
+
 int ualsa::open()
 {
     open_play();
     open_read();
+    // 启动线程
+    // std::thread t(threadFunction);
+    // t.detach();
     return 0;
 }
 

@@ -1,27 +1,68 @@
 #include "SipMediaHandle.hpp"
 #include "utils/AlsaUtils.hpp"
+#include <utils/PCMBufferQueue.h>
+#include <utils/code/CodecHanader.hpp>
+#include <thread>
 
-static std::mutex mutex_file_write;
+PCMBufferQueue pcmBufferQueue;
 namespace sipmedia
 {
 
     /**
      * 编解码器初始化
      */
+    static std::once_flag h264_file_read_init;
     sdk_status_t codec_init(sdk_uuid_t call_uuid,
                             video_media_config *vid_media_config,
                             void **user_data)
     {
-        vid_media_config->fps = 25;
+        vid_media_config->fps = 30;
         vid_media_config->width = 640;
         vid_media_config->height = 480;
-        vid_media_config->min_block_datas = 60;
+        vid_media_config->min_block_datas = 30;
 
-        /* 这里初始化编解码器 这里是文件中读取模拟编码器*/
-        SimulateCode *simulateCode = new SimulateCode("/data/test.h264");
-        simulateCode->call_uuid = call_uuid;
+        // 创建编解码管理
+        CodecHanader *codecHanader = CodecHanader::create(call_uuid);
+        if (!codecHanader)
+        {
+            return SDK_ERROR_COMMON;
+        }
         // user_data 你的私有数据
-        *user_data = simulateCode;
+        *user_data = codecHanader;
+
+        // 下面的代码只会执行一次，用于读取H264文件，测试视频，正式使用在需要的地方换成实际编码后的数据
+        std::call_once(h264_file_read_init, [vid_media_config]
+                       {
+                           // 启动一个线程一直读取文件
+                           std::thread t([vid_media_config]
+                                         {
+                                             uint8_t *buffer = (uint8_t *)malloc(vid_media_config->width * vid_media_config->height);
+                                             size_t buffer_size = 0;
+                                             int frame_type = 0;
+                                             // 从文件中读取帧
+                                             SimulateCode *simulateCode = new SimulateCode("/data/test.h264");
+                                             while (1)
+                                             {
+                                                 int ret = simulateCode->h264_readnalu(buffer, &buffer_size, &frame_type);
+                                                 if (ret <= 0)
+                                                 {
+                                                     printf("ReadNalu error 1\n");
+                                                     std::this_thread::sleep_for(std::chrono::milliseconds(40));
+                                                     continue;
+                                                 }
+                                                 bool isKeyframe = (frame_type == static_cast<int>(NALU_TYPE_IDR));
+                                                 //printf("------------------------------------------------:  %d\n\n\n\n", buffer_size);
+                                                 // 加入编码后的数据
+                                                 CodecHanader::enqueue(buffer, buffer_size, isKeyframe);
+                                                 std::this_thread::sleep_for(std::chrono::milliseconds(40));
+                                             }
+                                             free(buffer);
+                                             //
+                                         });
+                           t.detach();
+                           //
+                       });
+
         return SDK_SUCCESS;
     }
 
@@ -34,9 +75,6 @@ namespace sipmedia
      * is_keyframe: H.264 数据是否是关键帧，是：SDK_TRUE 不是: SDK_FLASE
      * required_keyframe: 需要强制返回关键帧
      */
-    uint8_t *buffer = (uint8_t *)malloc(1920 * 1080);
-    size_t buffer_size = 0;
-    int frame_type = 0;
     sdk_status_t codec_encode(void *user_data,
                               sdk_timestamp_t timestamp,
                               void *buf,
@@ -48,19 +86,15 @@ namespace sipmedia
         {
             // 这里最好强制编码关键帧，这个时候对方客户端是需要关键帧的
         }
-        memset(buffer, 0, 1920 * 1080);
-        SimulateCode *simulateCode = (SimulateCode *)user_data;
-        // 从文件中读取帧
-        int ret = simulateCode->h264_readnalu(buffer, &buffer_size, &frame_type);
-        if (ret <= 0)
+
+        CodecHanader *codecHanader = (CodecHanader *)user_data;
+        bool isKeyframe;
+        bool ret = codecHanader->dequeue((uint8_t *)buf, buf_size, &isKeyframe);
+        *is_keyframe = isKeyframe ? SDK_TRUE : SDK_FALSE;
+        if (!ret)
         {
-            printf("ReadNalu error 1\n");
-            usleep(1000 * 1000);
             return SDK_ERROR_COMMON;
         }
-        memcpy(buf, buffer, buffer_size);
-        *buf_size = buffer_size;
-        *is_keyframe = frame_type;
         return SDK_SUCCESS;
     }
 
@@ -81,27 +115,25 @@ namespace sipmedia
                               unsigned char *data,
                               unsigned data_size)
     {
-        printf("---------------------------------------------timestamp: %llu\n", timestamp);
-        mutex_file_write.lock();
-        SimulateCode *simulateCode = (SimulateCode *)user_data;
-        auto it = h264_files.find(simulateCode->call_uuid);
+        // 按照不同的codecHanader->call_uuid，将视频写入文件
+        CodecHanader *codecHanader = (CodecHanader *)user_data;
+        auto it = h264_files.find(codecHanader->call_uuid);
         if (it == h264_files.end())
         {
             // 如果没找到，创建一个新的文件流
-            std::string file_name = "/data/h264/" + std::to_string(simulateCode->call_uuid) + ".h264";
-            h264_files[simulateCode->call_uuid].open(file_name, std::ios::binary);
-            if (!h264_files[simulateCode->call_uuid].is_open())
+            std::string file_name = "/data/h264/" + std::to_string(codecHanader->call_uuid) + ".h264";
+            h264_files[codecHanader->call_uuid].open(file_name, std::ios::binary);
+            if (!h264_files[codecHanader->call_uuid].is_open())
             {
                 return -1;
             }
-            it = h264_files.find(simulateCode->call_uuid);
+            it = h264_files.find(codecHanader->call_uuid);
         }
         std::ofstream &h264_file = it->second;
         if (h264_file.is_open())
         {
             h264_file.write(reinterpret_cast<char *>(data), data_size);
         }
-        mutex_file_write.unlock();
         return SDK_SUCCESS;
     }
 
@@ -111,8 +143,8 @@ namespace sipmedia
      **/
     sdk_status_t codec_deinit(void *user_data)
     {
-        SimulateCode *simulateCode = (SimulateCode *)user_data;
-        delete simulateCode;
+        CodecHanader *codecHanader = (CodecHanader *)user_data;
+        delete codecHanader;
         return SDK_SUCCESS;
     }
 

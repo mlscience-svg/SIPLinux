@@ -18,7 +18,6 @@ private:
 public:
     SimulateCode(std::string path);
     ~SimulateCode();
-    sdk_uuid_t call_uuid;
 
     int find_start_code(uint8_t *buf, int start, int end);
     int h264_readnalu(uint8_t *p, size_t *size, int *type);
