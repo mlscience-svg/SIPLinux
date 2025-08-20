@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_BUILD_TYPE Release) #Release Debug
-set(CM_BUILD_OPTION "arm") #x86_64 arm arm_ez mips mips_gcc540
+set(CM_BUILD_OPTION "mips") #x86_64 arm arm_ez mips mips_gcc540
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
         set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -s")
@@ -72,49 +72,49 @@ elseif (${CM_BUILD_OPTION} STREQUAL "arm_ez")
                 ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/curl_license/arm_ez/lib/libcurl_license.so
                 ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/alsa/arm_ez/lib/libasound.so
         )
-elseif (${CM_BUILD_OPTION} STREQUAL "mips_gcc540")
+
+elseif (${CM_BUILD_OPTION} STREQUAL "mips")
          #配置编译工具链
         set(CMAKE_SYSTEM_PROCESSOR mips)
-        set(tools /home/ubuntu/project/sip_linux_sdk/resources/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller)
-        set(CMAKE_C_COMPILER ${tools}/bin/mips-linux-uclibc-gcc)
-        set(CMAKE_CXX_COMPILER ${tools}/bin/mips-linux-uclibc-g++)
+        set(tools /home/ubuntu/project/linux/tools/toolchains/mips-gcc720-glibc229)
+        set(CMAKE_C_COMPILER ${tools}/bin/mips-linux-gnu-gcc)
+        set(CMAKE_CXX_COMPILER ${tools}/bin/mips-linux-gnu-g++)
 
         
         include_directories(${CMAKE_CURRENT_SOURCE_DIR}
                 ${CMAKE_CURRENT_SOURCE_DIR}/main/src
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/include
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/curl_license/mips_gcc540/include
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/openssl/mips_gcc540/include
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/alsa/mips_gcc540/include
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/sdk/include
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/curl_license/mips/include
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/openssl/mips/include
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/alsa/mips/include
         )
 
         set(LIB_FILES 
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/curl/mips_gcc540/lib/libcurl.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libaecm.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libagc.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libcurl_license.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/liblicense.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libns.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libopus.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libpj-mips-unknown-linux-gnu.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libpjlib-util-mips-unknown-linux-gnu.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libpjmedia-audiodev-mips-unknown-linux-gnu.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libpjmedia-codec-mips-unknown-linux-gnu.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libpjmedia-mips-unknown-linux-gnu.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libpjmedia-videodev-mips-unknown-linux-gnu.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libpjnath-mips-unknown-linux-gnu.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libpjsip-mips-unknown-linux-gnu.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libpjsip-simple-mips-unknown-linux-gnu.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libpjsip-ua-mips-unknown-linux-gnu.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libpjsua-mips-unknown-linux-gnu.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libpjsua2-mips-unknown-linux-gnu.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libresample-mips-unknown-linux-gnu.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libsrtp-mips-unknown-linux-gnu.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libyuv-mips-unknown-linux-gnu.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips_gcc540/lib/libsipsdk.a
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/alsa/mips_gcc540/lib/libasound.so
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/openssl/mips_gcc540/lib/libcrypto.so.1.0.0
-                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/openssl/mips_gcc540/lib/libssl.so.1.0.0
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/pjsip/lib/libpj-mips-unknown-linux-gnu.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/pjsip/lib/libpjlib-util-mips-unknown-linux-gnu.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/pjsip/lib/libpjmedia-audiodev-mips-unknown-linux-gnu.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/pjsip/lib/libpjmedia-codec-mips-unknown-linux-gnu.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/pjsip/lib/libpjmedia-mips-unknown-linux-gnu.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/pjsip/lib/libpjmedia-videodev-mips-unknown-linux-gnu.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/pjsip/lib/libpjnath-mips-unknown-linux-gnu.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/pjsip/lib/libpjsip-mips-unknown-linux-gnu.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/pjsip/lib/libpjsip-simple-mips-unknown-linux-gnu.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/pjsip/lib/libpjsip-ua-mips-unknown-linux-gnu.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/pjsip/lib/libpjsua-mips-unknown-linux-gnu.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/pjsip/lib/libpjsua2-mips-unknown-linux-gnu.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/pjsip/lib/libresample-mips-unknown-linux-gnu.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/pjsip/lib/libsrtp-mips-unknown-linux-gnu.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/pjsip/lib/libyuv-mips-unknown-linux-gnu.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/opus/lib/libopus.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/aecm/lib/libaecm.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/sdk/lib/libsipsdk.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/license/lib/liblicense.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/curl_license/mips/lib/libcurl_license.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/sip/mips/speexdsp/lib/libspeexdsp.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/curl/mips/lib/libcurl.a
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/alsa/mips/lib/libasound.so
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/openssl/mips/lib/libcrypto.so
+                ${CMAKE_CURRENT_SOURCE_DIR}/main/libs/openssl/mips/lib/libssl.so
         )
         set(lib_l "-lpthread -lm -ldl -lstdc++ -lrt")
 endif ()

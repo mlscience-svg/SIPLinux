@@ -1,11 +1,11 @@
-prefix=/home/ubuntu/project/sip_linux_sdk/third_party/license/builds/linux/mips_gcc540/openssl
+prefix=/home/ubuntu/project/lvgl/sip_sdk_example/main/libs/openssl/mips_gcc540
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
 
-Name: OpenSSL
+Name: OpenSSL-libssl
 Description: Secure Sockets Layer and cryptography libraries
-Version: 1.0.0
-Requires: 
-Libs: -L${libdir} -lssl -lcrypto -ldl
-Cflags: -I${includedir} 
+Version: 3.2.2
+Requires.private: libcrypto
+Libs: -L${libdir} -lssl
+Cflags: -I${includedir}

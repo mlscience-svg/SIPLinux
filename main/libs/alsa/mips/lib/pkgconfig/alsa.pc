@@ -1,5 +1,5 @@
-prefix=/home/ubuntu/project/lvgl/linux_outdoor/main/libs/alsa/mips
-exec_prefix=/home/ubuntu/project/lvgl/linux_outdoor/main/libs/alsa/mips
+prefix=/home/ubuntu/project/lvgl/sip_sdk_example/main/libs/alsa/mips
+exec_prefix=/home/ubuntu/project/lvgl/sip_sdk_example/main/libs/alsa/mips
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
 

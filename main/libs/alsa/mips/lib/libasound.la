@@ -5,13 +5,13 @@
 # It is necessary for linking the library.
 
 # The name that we can dlopen(3).
-dlname=''
+dlname='libasound.so.2'
 
 # Names of this library.
-library_names=''
+library_names='libasound.so.2.0.0 libasound.so.2 libasound.so'
 
 # The name of the static archive.
-old_library='libasound.a'
+old_library=''
 
 # Linker flags that cannot go in dependency_libs.
 inherited_linker_flags=''
@@ -38,4 +38,4 @@ dlopen=''
 dlpreopen=''
 
 # Directory that this library needs to be installed in:
-libdir='/home/ubuntu/project/lvgl/linux_outdoor/main/libs/alsa/mips/lib'
+libdir='/home/ubuntu/project/lvgl/sip_sdk_example/main/libs/alsa/mips/lib'

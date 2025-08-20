@@ -5,19 +5,19 @@
 # It is necessary for linking the library.
 
 # The name that we can dlopen(3).
-dlname=''
+dlname='libatopology.so.2'
 
 # Names of this library.
-library_names=''
+library_names='libatopology.so.2.0.0 libatopology.so.2 libatopology.so'
 
 # The name of the static archive.
-old_library='libatopology.a'
+old_library=''
 
 # Linker flags that cannot go in dependency_libs.
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' /home/ubuntu/project/lvgl/linux_outdoor/main/libs/alsa/mips/lib/libasound.la -lm -lpthread -lrt -ldl'
+dependency_libs=' /home/ubuntu/project/lvgl/sip_sdk_example/main/libs/alsa/mips/lib/libasound.la -lm -lpthread -lrt -ldl'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''
@@ -38,4 +38,4 @@ dlopen=''
 dlpreopen=''
 
 # Directory that this library needs to be installed in:
-libdir='/home/ubuntu/project/lvgl/linux_outdoor/main/libs/alsa/mips/lib'
+libdir='/home/ubuntu/project/lvgl/sip_sdk_example/main/libs/alsa/mips/lib'
