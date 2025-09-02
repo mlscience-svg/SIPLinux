@@ -255,6 +255,7 @@ namespace sip
         sip_sdk_config.sdk_observer = &sdk_observer;
         sip_sdk_config.transport_stun_server = SDK_FALSE;
         sip_sdk_config.does_it_support_broadcast = SDK_TRUE;
+        sip_sdk_config.local_call_update_time = 60;
         sip_sdk_stun_config stun_cfg = {
             1, // 如果不需要Stun不配置或者设置0
             {

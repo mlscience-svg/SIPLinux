@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_BUILD_TYPE Release) #Release Debug
-set(CM_BUILD_OPTION "mips") #x86_64 arm arm_ez mips mips_gcc540
+set(CM_BUILD_OPTION "arm") #x86_64 arm arm_ez mips mips_gcc540
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
         set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -s")

@@ -207,6 +207,7 @@ extern "C"
         sdk_bool_t does_it_support_broadcast;    // 是否支持广播
         sip_sdk_stun_config stun_config;         // stun 服务器
         char custom_session_name[256];           // custom session name
+        int local_call_update_time;              // 本地呼叫更新时间（IP 呼叫不会自动更新会话，配置大于0表示间隔多少秒发送更新消息）
     } sip_sdk_common_config;
 
     extern sip_sdk_common_config sip_sdk_config;
