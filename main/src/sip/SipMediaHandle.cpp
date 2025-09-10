@@ -51,8 +51,8 @@ namespace sipmedia
                                                      continue;
                                                  }
                                                  bool isKeyframe = (frame_type == static_cast<int>(NALU_TYPE_IDR));
-                                                 //printf("------------------------------------------------:  %d\n\n\n\n", buffer_size);
-                                                 // 加入编码后的数据
+                                                 // printf("------------------------------------------------:  %d\n\n\n\n", buffer_size);
+                                                 //  加入编码后的数据
                                                  CodecHanader::enqueue(buffer, buffer_size, isKeyframe);
                                                  std::this_thread::sleep_for(std::chrono::milliseconds(40));
                                              }
@@ -165,6 +165,13 @@ namespace sipmedia
 
     void init()
     {
+        sip_sdk_audio_codec tmp_audio_code[4] = {
+            {"PCMA", SDK_TRUE, 1},
+            {"PCMU", SDK_TRUE, 2},
+            {"G722", SDK_TRUE, 3},
+            {"opus", SDK_TRUE, 4},
+        };
+        memcpy(sip_media_config.audio_codec, tmp_audio_code, sizeof(tmp_audio_code));
         /* 音频时钟速率 */
         sip_media_config.audio_clock_rate = 16000;
         sip_media_config.mic_gain = 1;
