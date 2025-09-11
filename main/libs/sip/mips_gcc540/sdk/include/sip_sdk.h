@@ -37,8 +37,11 @@ extern "C"
         /* IP 呼叫 */
         SDK_CALL_TYPE_IP = 0,
 
+        /* IP 呼叫 TCP 方式*/
+        SDK_CALL_TYPE_IP_TCP = SDK_CALL_TYPE_IP + 1,
+
         /* 服务器呼叫 */
-        SDK_CALL_TYPE_SERVER = 1,
+        SDK_CALL_TYPE_SERVER = SDK_CALL_TYPE_IP_TCP + 1,
 
         /* IP 消息 */
         SDK_MESSAGE_TYPE_IP = 0,
