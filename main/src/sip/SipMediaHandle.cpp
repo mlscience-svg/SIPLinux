@@ -153,9 +153,10 @@ namespace sipmedia
         return ualsa::read();
     }
 
-    void audio_frame_from_stream_v2(void *buf, int size)
+    sdk_status_t audio_frame_from_stream_v2(void *buf, int size)
     {
         ualsa::read(buf, size);
+        return SDK_SUCCESS;
     }
 
     sdk_status_t on_call_audio_media_stream(audio_media_frame media_frame)

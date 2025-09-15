@@ -89,7 +89,7 @@ extern "C"
         void (*write_audio_media_stream_thread_destroy)();                       // 写音频线程销毁回调
         void (*read_audio_media_stream_thread_create)();                         // 读音频线程创建回调
         audio_media_frame *(*read_audio_frame_from_stream)();                    // 读音频数据回调
-        void (*read_audio_frame_from_stream_v2)(void *buf, int size);            // 读音频数据回调v2
+        sdk_status_t (*read_audio_frame_from_stream_v2)(void *buf, int size);    // 读音频数据回调v2
         void (*read_audio_media_stream_thread_destroy)();                        // 读音频线程销毁回调
     } sip_audio_op;
 
