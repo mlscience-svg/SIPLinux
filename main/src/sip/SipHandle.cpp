@@ -243,8 +243,6 @@ namespace sip
         }
 
         sip_sdk_config.sdk_run = SDK_TRUE;
-        sip_sdk_config.port = 58581;
-        memset(sip_sdk_config.public_addr, 0, 64);
         sip_sdk_config.log_level = 4;
         sip_sdk_config.video_enable = SDK_TRUE;
         sip_sdk_config.video_out_auto_transmit = SDK_TRUE;
@@ -292,16 +290,24 @@ namespace sip
     void registrar()
     {
         // 初始化本地账号（这里初始化username，会将本地sip消息体中from由原有的sip:+ip改为sip:+username)
-        sip_sdk_local_config local_config = {
-            .username = "test",
-            .proxy = NULL,
-            .proxy_port = 0,
-            .enable_stream_control = SDK_FALSE,
-            .stream_elapsed = 0,
-            .start_keyframe_count = 120,
-            .start_keyframe_interval = 1000,
-        };
-        local_account(local_config);
+        // UDP 配置
+        sip_sdk_local_config local_config_udp = {0};
+        local_config_udp.port = 58581;
+        local_config_udp.stream_elapsed = 0;
+        local_config_udp.enable_stream_control = SDK_FALSE;
+        strncpy(local_config_udp.transport, "udp", sizeof(local_config_udp.transport) - 1);
+        strncpy(local_config_udp.username, "test", sizeof(local_config_udp.username) - 1);
+        local_account(local_config_udp);
+
+        // TCP 配置
+        sip_sdk_local_config local_config_tcp = {0};
+        local_config_tcp.port = 58581;
+        local_config_tcp.stream_elapsed = 0;
+        local_config_tcp.enable_stream_control = SDK_FALSE;
+        strncpy(local_config_tcp.transport, "tcp", sizeof(local_config_tcp.transport) - 1);
+        strncpy(local_config_tcp.username, "test", sizeof(local_config_tcp.username) - 1);
+        local_account(local_config_tcp);
+
         // 注册到服务器
         sip_sdk_registrar_config registrar_config = {
             .domain = "test.com",
@@ -315,8 +321,6 @@ namespace sip
             .proxy_port = 5060,
             .enable_stream_control = SDK_FALSE,
             .stream_elapsed = 0,
-            .start_keyframe_count = 10,
-            .start_keyframe_interval = 1000,
             .turn_config = {
                 .enable = SDK_TRUE, // 如果不需要Turn不配置或者设置SDK_FALSE
                 .server = "120.79.7.237:3478",

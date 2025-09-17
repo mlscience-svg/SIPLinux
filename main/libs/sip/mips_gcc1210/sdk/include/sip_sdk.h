@@ -37,14 +37,20 @@ extern "C"
         /* IP 呼叫 */
         SDK_CALL_TYPE_IP = 0,
 
+        /* IP 呼叫 TCP 方式*/
+        SDK_CALL_TYPE_IP_TCP = SDK_CALL_TYPE_IP + 1,
+
         /* 服务器呼叫 */
-        SDK_CALL_TYPE_SERVER = 1,
+        SDK_CALL_TYPE_SERVER = SDK_CALL_TYPE_IP_TCP + 1,
 
         /* IP 消息 */
         SDK_MESSAGE_TYPE_IP = 0,
 
+        /* IP 消息 TCP 方式*/
+        SDK_MESSAGE_TYPE_IP_TCP = SDK_MESSAGE_TYPE_IP + 1,
+
         /* 服务器消息 */
-        SDK_MESSAGE_TYPE_SERVER = 1,
+        SDK_MESSAGE_TYPE_SERVER = SDK_MESSAGE_TYPE_IP_TCP + 1,
 
         /* 普通 info 消息 */
         SDK_DTMF_INFO_TYPE = 0,
@@ -107,13 +113,13 @@ extern "C"
 
     typedef struct sip_sdk_local_config
     {
-        char *username;                   // 用户名
-        char *proxy;                      // 代理地址
-        unsigned proxy_port;              // 代理端口
+        char transport[16];               // transport
+        unsigned port;                    // 端口
+        char username[32];                // 用户名
+        char bound_addr[46];              // 本地绑定指定网卡IP
+        char public_addr[46];             // 公网IP配置（如果SDK运行在公网环境可以配置公网IP便于穿透）
         sdk_bool_t enable_stream_control; // 流发送控制
         int stream_elapsed;               // 流经过时间
-        unsigned start_keyframe_count;    // 开始关键帧数量
-        unsigned start_keyframe_interval; // 开始关键帧时间间隔
     } sip_sdk_local_config;
 
     typedef struct sip_sdk_registrar_config
@@ -129,8 +135,6 @@ extern "C"
         unsigned proxy_port;                        // 代理端口
         sdk_bool_t enable_stream_control;           // 流发送控制
         int stream_elapsed;                         // 流经过时间
-        unsigned start_keyframe_count;              // 开始关键帧数量
-        unsigned start_keyframe_interval;           // 开始关键帧时间间隔
         sip_sdk_turn_config turn_config;            // turn 服务器
     } sip_sdk_registrar_config;
 
@@ -191,12 +195,11 @@ extern "C"
 
     typedef struct sip_sdk_common_config
     {
-        unsigned port;                           // 端口
-        char public_addr[64];                    // 公网IP配置（如果SDK运行在公网环境可以配置公网IP便于穿透）
         int log_level;                           // 日志等级
         sdk_bool_t sdk_run;                      // 是否运行SDK
         char user_agent[32];                     // user agent
         int worker_thread_count;                 // 工作线程数量
+        sdk_bool_t update_route;                 // 是否更新路由
         sdk_bool_t null_audio_enable;            // 是否启用空音频
         sdk_bool_t video_enable;                 // 是否启用视频
         sdk_bool_t video_out_auto_transmit;      // 视频输出自动传输
