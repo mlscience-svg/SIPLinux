@@ -11,7 +11,18 @@ extern "C"
 {
 #endif
 
-    bool sync_token(const char *url, const char *client_id, const char *secret, char *info);
+    bool sync_token(
+        const char *url,
+        const char *client_id,
+        const char *secret,
+        char *info);
+
+    bool sync_classify_token(
+        const char *url,
+        const char *client_id,
+        const char *secret,
+        const char *classify_id,
+        char *info);
 
 #ifdef __cplusplus
 }

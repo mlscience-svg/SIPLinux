@@ -36,6 +36,8 @@ namespace sipmedia
                            // 启动一个线程一直读取文件
                            std::thread t([vid_media_config]
                                          {
+                                             // 打开alsa
+                                             ualsa::open();
                                              uint8_t *buffer = (uint8_t *)malloc(vid_media_config->width * vid_media_config->height);
                                              size_t buffer_size = 0;
                                              int frame_type = 0;
@@ -166,6 +168,7 @@ namespace sipmedia
 
     void init()
     {
+        sip_media_config.audio_only_call_confirmed = SDK_TRUE;
         sip_sdk_audio_codec tmp_audio_code[4] = {
             {"PCMA", SDK_TRUE, 1},
             {"PCMU", SDK_TRUE, 2},

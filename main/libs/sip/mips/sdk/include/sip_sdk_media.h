@@ -100,9 +100,9 @@ extern "C"
     } sip_sdk_media_h264_fmtp;
     typedef struct
     {
-        const char name[16]; // "PCMA", "PCMU", "opus", "G722"
-        sdk_bool_t enabled;  // 是否启用
-        int priority;        // 优先级, 0开始越大优先级越高
+        char name[16];      // "PCMA", "PCMU", "opus", "G722"
+        sdk_bool_t enabled; // 是否启用
+        int priority;       // 优先级, 0开始越大优先级越高
     } sip_sdk_audio_codec;
     typedef struct sip_sdk_media_config
     {

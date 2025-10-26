@@ -4,6 +4,8 @@
 
 #define SDK_LICENSE_CLIENT_ID "1364998327518760960"
 #define SDK_LICENSE_CLIENT_SECRET "fe6a46f2e71857a93963eec77d67b04b"
+// 正式授权需要
+#define SDK_LICENSE_CLASSIFY_ID ""
 #define SDK_LICENSE_SERVER_URL "https://api.mlscience.cn/"
 #define SDK_LICENSE_AUTH_FILE "/data/device.json"
 
@@ -129,12 +131,6 @@ namespace sip
     std::map<sdk_uuid_t, void *> audio_port_s;
     void on_call_state(sdk_uuid_t call_uuid, sdk_status_t state)
     {
-        if (state == CALL_STATE_CONFIRMED)
-        {
-            // 开启alsa
-            ualsa::open();
-        }
-
         // 下面的代码可以单独获取每一路声音
         //  if (state == CALL_STATE_CONFIRMED)
         //  {
@@ -224,6 +220,12 @@ namespace sip
             // 获取license
             char info[1024] = {0};
             bool ret = sync_token(SDK_LICENSE_SERVER_URL, SDK_LICENSE_CLIENT_ID, SDK_LICENSE_CLIENT_SECRET, info);
+            //  正式需要使用下面的方式注册
+            // bool ret = sync_classify_token(SDK_LICENSE_SERVER_URL,
+            //                                SDK_LICENSE_CLIENT_ID,
+            //                                SDK_LICENSE_CLIENT_SECRET,
+            //                                SDK_LICENSE_CLASSIFY_ID,
+            //                                info);
             if (!ret)
             {
                 printf("sip sdk license error\n");
@@ -311,7 +313,7 @@ namespace sip
         // 注册到服务器
         sip_sdk_registrar_config registrar_config = {
             .domain = "test.com",
-            .username = "test",
+            .username = "test1",
             .password = "123456",
             .transport = "tcp",
             .server_addr = "43.160.204.96",
