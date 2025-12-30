@@ -129,17 +129,17 @@ namespace sip
      * CALL_STATE_DISCONNECTED
      */
     std::map<sdk_uuid_t, void *> audio_port_s;
-    void on_call_state(sdk_uuid_t call_uuid, sdk_status_t state)
+    void on_call_state(sip_sdk_call_status_param param)
     {
         // 下面的代码可以单独获取每一路声音
-        //  if (state == CALL_STATE_CONFIRMED)
+        //  if (param.state == CALL_STATE_CONFIRMED)
         //  {
-        //      int media_id = media_connect_id(call_uuid);
+        //      int media_id = media_connect_id(param.call_uuid);
         //      if (media_id > 0)
         //      {
         //          PCMUtils *pcm_utils = new PCMUtils();
-        //          pcm_utils->call_uuid = call_uuid;
-        //          std::string name = "port:" + std::to_string(call_uuid);
+        //          pcm_utils->call_uuid = param.call_uuid;
+        //          std::string name = "port:" + std::to_string(param.call_uuid);
         //          sip_sdk_media_audio_port_param port_param;
         //          port_param.media_id = media_id;
         //          port_param.name = (char *)name.c_str();
@@ -154,7 +154,7 @@ namespace sip
         //          void *audio_port = create_custom_audio_port(port_param);
         //          if (audio_port)
         //          {
-        //              audio_port_s[call_uuid] = audio_port;
+        //              audio_port_s[param.call_uuid] = audio_port;
         //          }
         //          else
         //          {
@@ -162,12 +162,12 @@ namespace sip
         //          }
         //      }
         //  }
-        //  else if (state == CALL_STATE_DISCONNECTED)
+        //  else if (param.state == CALL_STATE_DISCONNECTED)
         //  {
-        //      if (audio_port_s.count(call_uuid) > 0)
+        //      if (audio_port_s.count(param.call_uuid) > 0)
         //      {
         //          // 键存在，可以安全地访问值
-        //          void *audio_port = audio_port_s[call_uuid];
+        //          void *audio_port = audio_port_s[param.call_uuid];
         //          destroy_custom_audio_port(audio_port);
         //      }
         //  }
@@ -228,7 +228,7 @@ namespace sip
             //                                info);
             if (!ret)
             {
-                printf("sip sdk license error\n");
+                printf("sip sdk license error. %d\n", ret);
                 return;
             }
 

@@ -179,6 +179,14 @@ extern "C"
         char *content;                  // 消息内容
     } sip_sdk_dtmf_info_param;
 
+    typedef struct sip_sdk_call_status_param
+    {
+        sdk_uuid_t call_uuid;   // 呼叫ID
+        sdk_status_t state;     // 状态
+        int last_status;        // 状态码
+        char *last_status_text; // 消息内容
+    } sip_sdk_call_status_param;
+
     typedef struct sip_sdk_observer
     {
         void (*on_log_callback)(int level, const char *data, int len);
@@ -189,13 +197,14 @@ extern "C"
         void (*on_dtmf_info)(sip_sdk_dtmf_info_param dtmf_info_param);
         void (*on_message)(sip_sdk_message_param message_param);
         void (*on_message_state)(sdk_status_t state, sip_sdk_message_param message_param);
-        void (*on_call_state)(sdk_uuid_t call_uuid, sdk_status_t state);
+        void (*on_call_status)(sip_sdk_call_status_param param);
         void (*expire_warning_callback)(time_t expire_time, time_t current_time);
     } sip_sdk_observer;
 
     typedef struct sip_sdk_common_config
     {
         int log_level;                           // 日志等级
+        unsigned port;                           // 默认端口
         sdk_bool_t sdk_run;                      // 是否运行SDK
         char user_agent[32];                     // user agent
         int worker_thread_count;                 // 工作线程数量
