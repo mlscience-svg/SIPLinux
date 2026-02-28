@@ -122,6 +122,12 @@ extern "C"
         int stream_elapsed;               // 流经过时间
     } sip_sdk_local_config;
 
+    typedef struct sip_sdk_ip_change_param
+    {
+        sdk_bool_t restart; // 是否重启
+        unsigned restart_delay; // 重启延迟，单位毫秒，默认为20ms
+    } sip_sdk_ip_change_param;
+
     typedef struct sip_sdk_registrar_config
     {
         char *domain;                               // 域
@@ -199,6 +205,7 @@ extern "C"
         void (*on_message_state)(sdk_status_t state, sip_sdk_message_param message_param);
         void (*on_call_status)(sip_sdk_call_status_param param);
         void (*expire_warning_callback)(time_t expire_time, time_t current_time);
+        void (*activity_check_callback)();
     } sip_sdk_observer;
 
     typedef struct sip_sdk_common_config
@@ -236,7 +243,7 @@ extern "C"
 
     sdk_status_t sip_sdk_destroy();
 
-    sdk_status_t sip_sdk_handle_ip_change();
+    sdk_status_t sip_sdk_handle_ip_change(const sip_sdk_ip_change_param ip_change_param);
 
     sdk_status_t local_account(const sip_sdk_local_config local_config);
 

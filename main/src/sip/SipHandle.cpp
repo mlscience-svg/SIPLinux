@@ -283,7 +283,10 @@ namespace sip
      */
     void handleIpChange()
     {
-        sip_sdk_handle_ip_change();
+        sip_sdk_ip_change_param ip_change_param = {0};
+        ip_change_param.restart = SDK_TRUE;
+        ip_change_param.restart_delay = 500;
+        sip_sdk_handle_ip_change(ip_change_param);
     }
 
     /**
