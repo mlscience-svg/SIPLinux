@@ -120,11 +120,12 @@ extern "C"
         char public_addr[46];             // 公网IP配置（如果SDK运行在公网环境可以配置公网IP便于穿透）
         sdk_bool_t enable_stream_control; // 流发送控制
         int stream_elapsed;               // 流经过时间
+        unsigned lock_codec;              // 锁定编解码器
     } sip_sdk_local_config;
 
     typedef struct sip_sdk_ip_change_param
     {
-        sdk_bool_t restart; // 是否重启
+        sdk_bool_t restart;     // 是否重启
         unsigned restart_delay; // 重启延迟，单位毫秒，默认为20ms
     } sip_sdk_ip_change_param;
 
@@ -141,6 +142,7 @@ extern "C"
         unsigned proxy_port;                        // 代理端口
         sdk_bool_t enable_stream_control;           // 流发送控制
         int stream_elapsed;                         // 流经过时间
+        unsigned lock_codec;                        // 锁定编解码器
         sip_sdk_turn_config turn_config;            // turn 服务器
     } sip_sdk_registrar_config;
 
