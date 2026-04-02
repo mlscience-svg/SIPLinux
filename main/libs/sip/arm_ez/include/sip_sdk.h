@@ -146,6 +146,18 @@ extern "C"
         sip_sdk_turn_config turn_config;            // turn 服务器
     } sip_sdk_registrar_config;
 
+    typedef struct sip_sdk_find_incoming_param
+    {
+        int transport_type;
+        char transport_name[16];
+        char to_domain[128];
+        char to_username[64];
+        char from_domain[128];
+        char from_username[64];
+        char request_domain[128];
+        char request_username[64];
+    } sip_sdk_find_incoming_param;
+
     typedef struct sip_sdk_call_param
     {
         sdk_call_t call_type;                       // 呼叫类型
@@ -202,6 +214,7 @@ extern "C"
         void (*on_stop_completed)();
         void (*on_registrar_state)(sdk_status_t state);
         void (*on_incoming_call)(sip_sdk_call_param call_param);
+        void (*on_find_incoming)(int *type, sip_sdk_find_incoming_param find_param);
         void (*on_dtmf_info)(sip_sdk_dtmf_info_param dtmf_info_param);
         void (*on_message)(sip_sdk_message_param message_param);
         void (*on_message_state)(sdk_status_t state, sip_sdk_message_param message_param);

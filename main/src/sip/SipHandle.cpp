@@ -57,6 +57,18 @@ namespace sip
         printf(" call_uuid: %llu\n", call_param.call_uuid);
     }
 
+    void on_find_incoming(int *type, sip_sdk_find_incoming_param find_param)
+    {
+        printf("transport_type: %d\n", find_param.transport_type);
+        printf("transport_name: %s\n", find_param.transport_name);
+        printf("to domain: %s\n", find_param.from_domain);
+        printf("to username: %s\n", find_param.from_username);
+        printf("for domain: %s\n", find_param.from_domain);
+        printf("for username: %s\n", find_param.from_username);
+        printf("request domain: %s\n", find_param.request_domain);
+        printf("request username: %s\n", find_param.request_username);
+    }
+
     /**
      * 收到dtmf info消息
      */
@@ -187,11 +199,13 @@ namespace sip
         &on_stop_completed,
         &on_registrar_state,
         &on_incoming_call,
+        &on_find_incoming,
         &on_dtmf_info,
         &on_message,
         &on_message_state,
         &on_call_state,
         &expire_warning_callback,
+        nullptr,
     };
 
     /**
@@ -206,7 +220,7 @@ namespace sip
                                                SDK_LICENSE_CLIENT_SECRET,
                                                dev_uuid.c_str(),
                                                SDK_LICENSE_AUTH_FILE,
-                                               SDK_LICENSE_TYPE_AUTHORIZATION_TIME);
+                                               SDK_LICENSE_TYPE_AUTHORIZATION_ALWAYS);
         if (status != 0)
         {
             // 检查文件是否存在
@@ -257,7 +271,7 @@ namespace sip
         sip_sdk_config.does_it_support_broadcast = SDK_TRUE;
         sip_sdk_config.local_call_update_time = 10;
         sip_sdk_stun_config stun_cfg = {
-            1, // 如果不需要Stun不配置或者设置0
+            0, // 如果不需要Stun不配置或者设置0
             {
                 "120.79.7.237:3478",
             },
@@ -315,19 +329,20 @@ namespace sip
 
         // 注册到服务器
         sip_sdk_registrar_config registrar_config = {
-            .domain = "test.com",
-            .username = "test1",
+            .domain = "sip.uniwin-link.com",
+            .username = "777",
             .password = "123456",
             .transport = "tcp",
-            .server_addr = "43.160.204.96",
+            .server_addr = "120.79.7.237",
             .server_port = 5060,
             .headers = {},
-            .proxy = "43.160.204.96",
+            .proxy = "120.79.7.237",
             .proxy_port = 5060,
             .enable_stream_control = SDK_FALSE,
             .stream_elapsed = 0,
+            .lock_codec = 0,
             .turn_config = {
-                .enable = SDK_TRUE, // 如果不需要Turn不配置或者设置SDK_FALSE
+                .enable = SDK_FALSE, // 如果不需要Turn不配置或者设置SDK_FALSE
                 .server = "120.79.7.237:3478",
                 .realm = "120.79.7.237",
                 .username = "test",

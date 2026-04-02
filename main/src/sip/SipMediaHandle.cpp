@@ -16,7 +16,7 @@ namespace sipmedia
                             video_media_config *vid_media_config,
                             void **user_data)
     {
-        vid_media_config->fps = 30;
+        vid_media_config->fps = 20;
         vid_media_config->width = 640;
         vid_media_config->height = 480;
         vid_media_config->min_block_datas = 30;
@@ -52,7 +52,7 @@ namespace sipmedia
                                                      std::this_thread::sleep_for(std::chrono::milliseconds(40));
                                                      continue;
                                                  }
-                                                 bool isKeyframe = (frame_type == static_cast<int>(NALU_TYPE_IDR));
+                                                 bool isKeyframe = (frame_type == static_cast<int>(NALU_TYPE_SPS));
                                                  // printf("------------------------------------------------:  %d\n\n\n\n", buffer_size);
                                                  //  加入编码后的数据
                                                  CodecHanader::enqueue(buffer, buffer_size, isKeyframe);
@@ -196,6 +196,11 @@ namespace sipmedia
         sip_media_config.audio_op.write_audio_media_stream = on_call_audio_media_stream;
         // 组合sps pps idr
         sip_media_config.combin_sps_pps_idr = SDK_TRUE;
+
+        memset(sip_media_config.h264_fmtp.profile_level_id, 0, sizeof(sip_media_config.h264_fmtp.profile_level_id));
+        strncpy(sip_media_config.h264_fmtp.profile_level_id, "42e01f", sizeof(sip_media_config.h264_fmtp.profile_level_id) - 1);
+        memset(sip_media_config.h264_fmtp.packetization_mode, 0, sizeof(sip_media_config.h264_fmtp.packetization_mode));
+        strncpy(sip_media_config.h264_fmtp.packetization_mode, "1", sizeof(sip_media_config.h264_fmtp.packetization_mode) - 1);
         // 是否开启解码
         if (INIT_ENABLE_DECODE)
         {

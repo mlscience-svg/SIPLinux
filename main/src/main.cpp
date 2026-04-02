@@ -11,13 +11,13 @@ int main()
     {
         i++;
         sleep(1);
-        if (i == 5)
+        if (i == 3)
         {
             // 3s后测试呼叫
             std::map<std::string, std::string> headers;
             // 这里呼叫多个
-            sip::call("test", headers);
-            //sip::callIP("10.200.0.5", headers);
+            //sip::call("555", headers);
+            //sip::callIP("10.200.0.3", headers);
         }
 
         // if (i % 2 == 0)
