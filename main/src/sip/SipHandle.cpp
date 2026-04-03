@@ -61,8 +61,8 @@ namespace sip
     {
         printf("transport_type: %d\n", find_param.transport_type);
         printf("transport_name: %s\n", find_param.transport_name);
-        printf("to domain: %s\n", find_param.from_domain);
-        printf("to username: %s\n", find_param.from_username);
+        printf("to domain: %s\n", find_param.to_domain);
+        printf("to username: %s\n", find_param.to_username);
         printf("for domain: %s\n", find_param.from_domain);
         printf("for username: %s\n", find_param.from_username);
         printf("request domain: %s\n", find_param.request_domain);
