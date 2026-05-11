@@ -52,11 +52,14 @@ extern "C"
         /* 服务器消息 */
         SDK_MESSAGE_TYPE_SERVER = SDK_MESSAGE_TYPE_IP_TCP + 1,
 
+        /* RFC2833 消息 */
+        SDK_DTMF_RFC2833_TYPE = 0,
+
         /* 普通 info 消息 */
-        SDK_DTMF_INFO_TYPE = 0,
+        SDK_DTMF_INFO_TYPE = SDK_DTMF_RFC2833_TYPE + 1,
 
         /* 自定义 info 消息 */
-        SDK_DTMF_INFO_TYPE_CUSTOM = 1,
+        SDK_DTMF_INFO_TYPE_CUSTOM = SDK_DTMF_INFO_TYPE + 1,
 
         /* 呼叫状态 */
         CALL_STATE_NULL = 0,
