@@ -143,6 +143,7 @@ extern "C"
         sip_header headers[SDK_MAX_CUSTOM_HEADERS]; // sip header
         char *proxy;                                // 代理地址
         unsigned proxy_port;                        // 代理端口
+        sdk_bool_t srtp_keying;                     // srtp_keying
         sdk_bool_t enable_stream_control;           // 流发送控制
         int stream_elapsed;                         // 流经过时间
         unsigned lock_codec;                        // 锁定编解码器
