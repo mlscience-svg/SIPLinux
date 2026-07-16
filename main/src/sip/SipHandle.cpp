@@ -270,6 +270,7 @@ namespace sip
         sip_sdk_config.transport_stun_server = SDK_FALSE;
         sip_sdk_config.does_it_support_broadcast = SDK_TRUE;
         sip_sdk_config.local_call_update_time = 10;
+        sip_sdk_config.tcp_keep_alive_interval = 15;
         sip_sdk_stun_config stun_cfg = {
             0, // 如果不需要Stun不配置或者设置0
             {
